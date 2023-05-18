@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# Resolve all dependencies that the application requires to run.
+# Usage:
+#        script/bootstrap
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+[ -n "$1" ] && extraRequirements="[$1]"
+
+pip3 install wheel
+pip3 install --upgrade -e .${extraRequirements}

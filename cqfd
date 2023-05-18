@@ -1,0 +1,13 @@
+#!/bin/bash
+
+CQFD=$(PATH="/usr/bin:/usr/local/bin" which cqfd)
+
+if [[ "$1" == init ]]; then
+    ${CQFD} init
+    ${CQFD} -b install
+    exit $?
+fi
+
+${CQFD} $@
+
+
