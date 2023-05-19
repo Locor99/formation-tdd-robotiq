@@ -27,3 +27,8 @@ class TestCombiner(TestCase):
         squashedArray = self.aCombiner.squash([None, 2, None, 2])
 
         self.assertEqual([4, None, None, None], squashedArray)
+
+    def test_tiles_should_merge_only_once_during_squash(self):
+        squashedArray = self.aCombiner.squash([4, 2, 2, 2])
+
+        self.assertEqual([4, 4, 2, None], squashedArray)
