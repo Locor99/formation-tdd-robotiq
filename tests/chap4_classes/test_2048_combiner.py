@@ -6,29 +6,46 @@ class TestCombiner(TestCase):
     def setUp(self) -> None:
         self.aCombiner = Combiner()
 
-    def test_an_empty_array_should_be_squashed_into_an_empty_array(self):
-        squashedArray = self.aCombiner.squash([None, None, None, None])
+    def test_squashAnEmptyArray_ShouldReturnAnEmptyArray(self):
+        self._assertThatArraySquashesInto([None, None, None, None],
+                                          [None, None, None, None])
 
-        self.assertEqual([None, None, None, None], squashedArray)
+    def test_alreadySquashedArray_shouldBeReturnedAsIs(self):
+        self._assertThatArraySquashesInto([2, None, None, None],
+                                          [2, None, None, None])
 
-    def test_an_array_with_one_tile_on_the_right_should_be_squashed_into_an_array_with_the_tile_on_the_left(self):
-        squashedArray = self.aCombiner.squash([None, None, None, 2])
+    def test_squashWithOneEmptyNeighbor_shouldMoveTileToTheLeft(self):
+        self._assertThatArraySquashesInto([None, 2, None, None],
+                                          [2, None, None, None])
 
-        self.assertEqual([2, None, None, None], squashedArray)
+    def test_squash_shouldMoveTileThroughAllEmptyNeighbors(self):
+        self._assertThatArraySquashesInto([None, None, None, 2],
+                                          [2, None, None, None])
 
-    def test_an_array_with_two_different_tiles_not_on_left_side_should_stack_left(self):
-        squashedArray = self.aCombiner.squash([None, 4, None, 2])
+    def test_twoIdenticalTiles_shouldCombine(self):
+        self._assertThatArraySquashesInto([2, 2, None, None],
+                                          [4, None, None, None])
 
-        self.assertEqual([4, 2, None, None], squashedArray)
-    # Ce test passe déjà. Le comportement existait déjà.
-    # Je garderais le test, car il apporte un autre niveau de complexité...?
+    def test_twoDifferentNumbers_shouldStackButNotCombine(self):
+        self._assertThatArraySquashesInto([4, None, 2, None],
+                                          [4, 2, None, None])
 
-    def test_an_array_with_two_tiles_of_same_value_should_add_up_and_stack_left(self):
-        squashedArray = self.aCombiner.squash([None, 2, None, 2])
+    def test_twoIdenticalTiles_separatedByEmptyNeighbors_shouldCombine(self):
+        self._assertThatArraySquashesInto([None, 2, None, 2],
+                                          [4, None, None, None])
 
-        self.assertEqual([4, None, None, None], squashedArray)
+    def test_manyIdenticalTiles_shouldCombineFromTheLeft(self):
+        self._assertThatArraySquashesInto([2, 2, 2, None],
+                                          [4, 2, None, None])
 
-    def test_tiles_should_merge_only_once_during_squash(self):
-        squashedArray = self.aCombiner.squash([4, 2, 2, 2])
+    def test_tiles_ShouldNotCombineMoreThanOnce(self):
+        self._assertThatArraySquashesInto([4, 2, 2, None],
+                                          [4, 4, None, None])
 
-        self.assertEqual([4, 4, 2, None], squashedArray)
+    def test_fullArrayOfTiles_ShouldMergeOnlyOnceDuringSquash(self):
+        self._assertThatArraySquashesInto([4, 2, 2, 2],
+                                          [4, 4, 2, None])
+
+    def _assertThatArraySquashesInto(self, fromArray, toArray):
+        squashedArray = self.aCombiner.squash(fromArray)
+        self.assertEqual(toArray, squashedArray)

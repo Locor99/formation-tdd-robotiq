@@ -1,24 +1,26 @@
+EMPTY = None
+
 class Combiner:
     def __init__(self):
-        self.activeArray = []
+        pass
+
     def squash(self, array):
-        self.activeArray = array
-        # return [None, None, None, None]
+        for i in range(len(array)-1):
+            if array[i] is EMPTY :
+                self._remove_empty_neighbors(array, i)
 
-        tileWasMoved = True
-        while tileWasMoved:
-            tileWasMoved = False
-            for i in range(1, len(array)):
-                if self._tile_is_empty(i-1) and not self._tile_is_empty(i):
-                    self.activeArray[i-1] = self.activeArray[i]
-                    self.activeArray[i] = None
-                    tileWasMoved = True
-
-                elif not self._tile_is_empty(i-1) and self.activeArray[i-1] == self.activeArray[i]:
-                    self.activeArray[i-1] *= 2
-                    self.activeArray[i] = None
+            if self._can_combine_tiles(array, i):
+                array[i] *= 2
+                array[i+1] = None
 
         return array
 
-    def _tile_is_empty(self, index):
-        return self.activeArray[index] is None
+    def _remove_empty_neighbors(self, array, i):
+        for j in range(i+1, len(array)):
+            if array[j] is not EMPTY:
+                array[i] = array[j]
+                array[j] = None
+                i += 1
+
+    def _can_combine_tiles(self, array, i):
+        return array[i] and array[i] == array[i+1]
