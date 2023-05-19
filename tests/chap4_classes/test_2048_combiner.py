@@ -7,20 +7,17 @@ class TestCombiner(TestCase):
         self.aCombiner = Combiner()
 
     def test_an_empty_array_should_be_squashed_into_an_empty_array(self):
-        array = [None, None, None, None]
-        squashedArray = self.aCombiner.squash(array)
+        squashedArray = self.aCombiner.squash([None, None, None, None])
 
         self.assertEqual([None, None, None, None], squashedArray)
 
     def test_an_array_with_one_tile_on_the_right_should_be_squashed_into_an_array_with_the_tile_on_the_left(self):
-        array = [None, None, None, 2]
-        squashedArray = self.aCombiner.squash(array)
+        squashedArray = self.aCombiner.squash([None, None, None, 2])
 
         self.assertEqual([2, None, None, None], squashedArray)
 
     def test_an_array_with_two_different_tiles_not_on_left_side_should_squash_left(self):
-        array = [None, 4, None, 2]
-        squashedArray = self.aCombiner.squash(array)
+        squashedArray = self.aCombiner.squash([None, 4, None, 2])
 
         self.assertEqual([4, 2, None, None], squashedArray)
     # Ce test passe déjà. Le comportement existait déjà.
