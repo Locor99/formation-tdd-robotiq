@@ -11,4 +11,8 @@ class Combiner:
                     array[i] = None
                     tileWasMoved = True
 
+                elif array[i-1] is not None and array[i-1] == array[i]:
+                    array[i-1] *= 2
+                    array[i] = None
+
         return array

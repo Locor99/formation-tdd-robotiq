@@ -16,9 +16,14 @@ class TestCombiner(TestCase):
 
         self.assertEqual([2, None, None, None], squashedArray)
 
-    def test_an_array_with_two_different_tiles_not_on_left_side_should_squash_left(self):
+    def test_an_array_with_two_different_tiles_not_on_left_side_should_stack_left(self):
         squashedArray = self.aCombiner.squash([None, 4, None, 2])
 
         self.assertEqual([4, 2, None, None], squashedArray)
     # Ce test passe déjà. Le comportement existait déjà.
     # Je garderais le test, car il apporte un autre niveau de complexité...?
+
+    def test_an_array_with_two_tiles_of_same_value_should_add_up_and_stack_left(self):
+        squashedArray = self.aCombiner.squash([None, 2, None, 2])
+
+        self.assertEqual([4, None, None, None], squashedArray)
