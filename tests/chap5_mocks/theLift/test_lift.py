@@ -3,11 +3,27 @@ from src.chap5_mocks.theLift.lift import Lift
 
 
 class TestLift(TestCase):
-    def test_aCall_shouldMoveTheLiftToActualFloor(self):
-        aLift = Lift(0)
-        sourceFloor = 5
+    def setUp(self) -> None:
+        self.aLift = Lift(0)
 
-        aLift.call(sourceFloor)
+    def test_aCall_shouldMoveTheLiftToTargetFloor(self):
+        targetFloor = 5
+        self.aLift.moveLiftToTargetFloor(targetFloor)
+        self.assertEqual(self.aLift.getFloor(), targetFloor)
 
-        self.assertEqual(aLift.getFloor(), sourceFloor)
+    # def test_direction_shouldBeUp_whenCallingFromUpperFloor(self):
+    #     targetFloor = 5
+    #     self.aLift.moveLiftToTargetFloor(targetFloor)
+    #     self.assertEqual(self.aLift.getDirection(), Lift._DIRECTION_UP)
+    #
+    # def test_direction_shouldBeDown_whenCallingFromLowerFloor(self):
+    #     self.aLift.moveLiftToTargetFloor(5)
+    #     targetFloor = 0
+    #
+    #     self.aLift.moveLiftToTargetFloor(0)
+    #     self.assertEqual(self.aLift.getDirection(), Lift._DIRECTION_DOWN)
 
+
+    # def test_theLift_shouldGoAtTargetFloor_IfDirectionIsNulOrTowardsTarget(self):
+    #     target_floor =
+    #     self.aLift.call(5)
