@@ -20,7 +20,6 @@ class TestLift(TestCase):
         self.aLift.moveLiftToTargetFloor(0)
         self.assertEqual(self.aLift.getDirection(), Lift._DIRECTION_DOWN)
 
+    # def test_theLift_shouldGoToTargetFloor_OnlyIfDirectionIsNulOrTowardsTargetFloor(self):
+    #     self.aLift.moveLiftToTargetFloor(5)
 
-    def test_theLift_shouldGoAtTargetFloor_OnlyIfDirectionIsNulOrTowardsTarget(self):
-        target_floor =
-        self.aLift.call(5)

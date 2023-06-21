@@ -2,6 +2,7 @@ class Lift:
     _DIRECTION_UP = "up"
     _DIRECTION_DOWN = "down"
     _DIRECTION_NONE = None
+
     def __init__(self, initialFloor):
         self._floor = initialFloor
         self._direction = None
