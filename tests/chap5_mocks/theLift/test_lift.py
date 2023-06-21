@@ -3,7 +3,7 @@ from src.chap5_mocks.theLift.lift import Lift
 
 
 class TestLift(TestCase):
-    def test_callingTheLift_shouldBringTheLiftToActualFloor(self):
+    def test_aCall_shouldMoveTheLiftToActualFloor(self):
         aLift = Lift(0)
         sourceFloor = 5
 
