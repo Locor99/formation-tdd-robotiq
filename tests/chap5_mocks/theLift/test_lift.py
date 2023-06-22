@@ -1,25 +1,39 @@
 from unittest import TestCase
 from src.chap5_mocks.theLift.lift import Lift
 
-
+ANY_DIRECTION = Lift.DIRECTION_UP
 class TestLift(TestCase):
+
     def setUp(self) -> None:
-        self.aLift = Lift(0)
+        self.lift = Lift()
 
-    def test_aCall_shouldMoveTheLiftToTargetFloor(self):
-        targetFloor = 5
-        self.aLift.moveLiftToTargetFloor(targetFloor)
-        self.assertEqual(self.aLift.getFloor(), targetFloor)
+    def test_callingLift_shouldBringItToCallingFloor(self):
+        self.lift.call(42, ANY_DIRECTION)
+        self.assertEqual(self.lift.floor(), 42)
 
-    def test_direction_shouldBeUp_whenCallingFromUpperFloor(self):
-        self.aLift.moveLiftToTargetFloor(5)
-        self.assertEqual(self.aLift.getDirection(), Lift._DIRECTION_UP)
+    def test_requestingFloor_shouldBringItThere(self):
+        self.lift.request(5)
+        self.assertEqual(self.lift.floor(), 5)
 
-    def test_direction_shouldBeDown_whenCallingFromLowerFloor(self):
-        self.aLift.moveLiftToTargetFloor(5)
-        self.aLift.moveLiftToTargetFloor(0)
-        self.assertEqual(self.aLift.getDirection(), Lift._DIRECTION_DOWN)
+    def test_aCalledLift_shouldNotMoveBeforeARequestIsMade(self):
+        self.lift.call(1, ANY_DIRECTION)
+        self.lift.call(2, ANY_DIRECTION)
+        self.assertEqual(self.lift.floor(), 1)
 
-    # def test_theLift_shouldGoToTargetFloor_OnlyIfDirectionIsNulOrTowardsTargetFloor(self):
-    #     self.aLift.moveLiftToTargetFloor(5)
+    def test_callingLift_AfterARequestIsMade_shouldBringItToCallingFloor(self):
+        self.lift.call(1, ANY_DIRECTION)
+        self.lift.request(2)
+
+        self.lift.call(3, ANY_DIRECTION)
+
+        self.assertEqual(self.lift.floor(), 3)
+
+    def test_aCalledLift_shouldRememberNextCall(self):
+        self.lift.call(1, Lift.DIRECTION_UP)
+        self.lift.call(3, ANY_DIRECTION)
+
+        self.lift.request(2)
+
+        self.assertEqual(self.lift.floor(), 3)
+
 

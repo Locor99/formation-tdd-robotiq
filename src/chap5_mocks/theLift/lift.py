@@ -1,24 +1,31 @@
 class Lift:
-    _DIRECTION_UP = "up"
-    _DIRECTION_DOWN = "down"
-    _DIRECTION_NONE = None
+    DIRECTION_NONE = 0
+    DIRECTION_UP = 1
+    DIRECTION_DOWN = 2
 
-    def __init__(self, initialFloor):
-        self._floor = initialFloor
-        self._direction = None
+    def __init__(self):
+        self._floor = 0
+        self._direction = Lift.DIRECTION_NONE
+        self._isWaitingForARequest = False
+        self._calls = []
 
-    def moveLiftToTargetFloor(self, targetFloor):
-        if targetFloor > self._floor:
-            self._direction = self._DIRECTION_UP
-        elif targetFloor < self._floor:
-            self._direction = self._DIRECTION_DOWN
+    def call(self, callingFloor, direction):
+        if self._isWaitingForARequest:
+            self._calls.append(callingFloor)
+
         else:
-            self._direction = self._DIRECTION_NONE
+            self._floor = callingFloor
+            self._isWaitingForARequest = True
 
+    def request(self, targetFloor):
         self._floor = targetFloor
+        self._isWaitingForARequest = False
+        if self._calls:
+            self._floor = self._calls.pop(0)
 
-    def getFloor(self):
+
+    def floor(self):
         return self._floor
 
-    def getDirection(self):
+    def direction(self):
         return self._direction
