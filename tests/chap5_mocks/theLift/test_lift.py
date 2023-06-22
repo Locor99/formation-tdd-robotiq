@@ -36,4 +36,11 @@ class TestLift(TestCase):
 
         self.assertEqual(self.lift.floor(), 3)
 
+    def test_aCalledLift_crossingAnIntermediateFloorThatCalledForSameDirection_shouldStopAtThisFloor(self):
+        self.lift.call(10, ANY_DIRECTION)
+        self.lift.call(5, Lift.DIRECTION_UP)
+
+        self.lift.request(2)
+
+        self.assertEqual(self.lift.floor(), 5)
 

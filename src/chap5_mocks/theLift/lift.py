@@ -23,7 +23,6 @@ class Lift:
         if self._calls:
             self._floor = self._calls.pop(0)
 
-
     def floor(self):
         return self._floor
 
