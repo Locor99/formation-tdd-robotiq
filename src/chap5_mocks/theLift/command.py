@@ -2,11 +2,14 @@ class Command:
     def __init__(self, floor):
         self._floor = floor
 
-    def getFloor(self):
+    def floor(self):
         return self._floor
 
     def __eq__(self, other):
         return self._floor == other._floor
+
+    def __lt__(self, other):
+        return self._floor < other._floor
 
 
 class Call(Command):
@@ -14,7 +17,7 @@ class Call(Command):
         super().__init__(floor)
         self._direction = direction
 
-    def getDirection(self):
+    def direction(self):
         return self._direction
 
     def __eq__(self, other):
