@@ -6,13 +6,14 @@ class TestScheduler(TestCase):
     def setUp(self) -> None:
         self.scheduler = Scheduler()
 
-    def test_callingLift_shouldBringItToCallingFloor(self):
-        self.lift.call(42, ANY_DIRECTION)
-        self.assertEqual(self.lift.floor(), 42)
+    def test_scheduler_shouldRemember_addedCalls(self):
+        self.scheduler.add_call(1, Scheduler.DIRECTION_UP)
+        self.scheduler.add_call(2, Scheduler.DIRECTION_DOWN)
 
-    # def test_scheduler_shouldRemember_addedCalls(self):
-    #     self.scheduler.add_call(1)
-    #     self.scheduler.add_call(2)
-    #     self.scheduler.add_call(3)
-    #
-    #     self.assertEqual(self.scheduler.calls(), [1, 2, 3])
+        self.assertEqual(self.scheduler.getCalls(),
+                         [[1, Scheduler.DIRECTION_UP], [2, Scheduler.DIRECTION_DOWN]])
+
+    def test_scheduler_shouldPointNextFloor_whenOneCallWasMade(self):
+        self.scheduler.add_call(1, Scheduler.DIRECTION_DOWN)
+        self.assertEqual(1, self.scheduler.next())
+

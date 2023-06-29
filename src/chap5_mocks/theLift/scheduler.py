@@ -5,8 +5,28 @@ class Scheduler:
 
     def __init__(self):
         self._calls = []
-    def add_call(self, floor):
-        self._calls.append(floor)
 
-    def calls(self):
+    def add_call(self, floor, direction):
+        self._calls.append([floor, direction])
+
+    def getCalls(self):
         return self._calls
+
+    def next(self):
+        return self._calls.pop(0)[0]
+
+
+class Command:
+    def __init__(self, floor):
+        self._floor = floor
+
+
+class Call(Command):
+    def __init__(self, floor, direction):
+        super().__init__(floor)
+        self._direction = direction
+
+
+class Request(Command):
+    def __init__(self, floor):
+        super().__init__(floor)

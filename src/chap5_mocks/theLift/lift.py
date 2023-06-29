@@ -1,7 +1,7 @@
 class Lift:
+    DIRECTION_DOWN = -1
     DIRECTION_NONE = 0
     DIRECTION_UP = 1
-    DIRECTION_DOWN = 2
 
     def __init__(self):
         self._floor = 0
