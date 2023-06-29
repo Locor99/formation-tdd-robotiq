@@ -1,11 +1,11 @@
+from src.chap5_mocks.theLift.command import DIRECTION_UP, DIRECTION_DOWN, DIRECTION_ANY
+
+MAX_LIFT_FLOORS = 1000
 class Lift:
-    DIRECTION_DOWN = -1
-    DIRECTION_NONE = 0
-    DIRECTION_UP = 1
 
     def __init__(self):
         self._floor = 0
-        self._direction = Lift.DIRECTION_NONE
+        self._direction = DIRECTION_ANY
         self._isWaitingForARequest = False
         self._calls = []
 
