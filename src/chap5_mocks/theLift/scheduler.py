@@ -11,19 +11,3 @@ class Scheduler:
 
     def next(self):
         return self._calls.pop(0)[0]
-
-
-class Command:
-    def __init__(self, floor):
-        self._floor = floor
-
-
-class Call(Command):
-    def __init__(self, floor, direction):
-        super().__init__(floor)
-        self._direction = direction
-
-
-class Request(Command):
-    def __init__(self, floor):
-        super().__init__(floor)
