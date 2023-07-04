@@ -71,6 +71,27 @@ class TestScheduler(TestCase):
 
         self.assertEqual(self.scheduler.next(actualFloor, DIRECTION_DOWN), 3)
 
+    def test_nextGoingAnyDirection_withAboveAndBelowCallsInSameDirection_shouldReturnClosestFloor(self):
+        actualFloor = 5
+        self.scheduler.add_call(floor=6, direction=DIRECTION_DOWN)
+        self.scheduler.add_call(floor=3, direction=DIRECTION_DOWN)
+
+        self.assertEqual(self.scheduler.next(actualFloor, DIRECTION_ANY), 6)
+
+    def test_nextGoingAnyDirection_withAboveAndBelowCallsInDifferentDirections_shouldReturnClosestFloor(self):
+        actualFloor = 5
+        self.scheduler.add_call(floor=6, direction=DIRECTION_UP)
+        self.scheduler.add_call(floor=3, direction=DIRECTION_DOWN)
+
+        self.assertEqual(self.scheduler.next(actualFloor, DIRECTION_ANY), 6)
+
+    # def test_nextGoingAnyDirection_withAboveAndBelowCallsInDifferentDirections_shouldReturnClosestFloor(self):
+    #     actualFloor = 5
+    #     self.scheduler.add_call(floor=4, direction=DIRECTION_UP)
+    #     self.scheduler.add_call(floor=6, direction=DIRECTION_DOWN)
+    #
+    #     self.assertEqual(self.scheduler.next(actualFloor, DIRECTION_ANY), 6)
+
     def test_nextGoingUp_withManyAboveRequests_shouldReturnClosestFloor(self):
         actualFloor = 0
         self.scheduler.add_request(floor=2)
@@ -84,3 +105,10 @@ class TestScheduler(TestCase):
         self.scheduler.add_request(floor=1)
 
         self.assertEqual(self.scheduler.next(actualFloor, DIRECTION_DOWN), 2)
+
+    def test_nextGoingAnyDirection_withAboveAndBelowRequests_shouldReturnClosestFloor(self):
+        actualFloor = 5
+        self.scheduler.add_request(floor=6)
+        self.scheduler.add_request(floor=4)
+
+        self.assertEqual(self.scheduler.next(actualFloor, DIRECTION_ANY), 6)
