@@ -16,26 +16,25 @@ class Scheduler:
         if self._commands:
             closestFloor = None
 
-            if actualDirection is DIRECTION_UP:
-                # minimumDistance = MAX_LIFT_FLOORS
-                # for command in self._commands:
-                #     distanceActualFloorToCommandFloor = self._calculateDistance(command, actualFloor, actualDirection)
-                #     if distanceActualFloorToCommandFloor < minimumDistance:
-                #         minimumDistance = distanceActualFloorToCommandFloor
-                #         closestFloor = command.floor()
-                #
-                # return closestFloor
-                distances = []
-                for command in self._commands:
-                    distances.append(self._calculateDistance(command, actualFloor, actualDirection))
+            distances = []
+            for command in self._commands:
+                distances.append(self._calculateDistance(command, actualFloor, actualDirection))
 
-                indexOfMinDistance = distances.index(min(distances))
-                closestFloor = self._commands[indexOfMinDistance].floor()
-                return closestFloor
+            indexOfMinDistance = distances.index(min(distances))
+            closestFloor = self._commands[indexOfMinDistance].floor()
+            return closestFloor
 
         else:
             return None
 
     def _calculateDistance(self, command, actualFloor, actualDirection):
-        offset = 0 if command.isSameDirection(actualDirection) else 2*(MAX_LIFT_FLOORS - command.floor())
-        return command.floor() - actualFloor + offset
+        if command.isSameDirection(actualDirection):
+            distance = abs(actualFloor - command.floor())
+        else:
+            if actualDirection is DIRECTION_UP:
+                distance = 2 * MAX_LIFT_FLOORS - actualFloor - command.floor()
+
+            elif actualDirection is DIRECTION_DOWN:
+                distance = actualFloor + command.floor()
+
+        return distance

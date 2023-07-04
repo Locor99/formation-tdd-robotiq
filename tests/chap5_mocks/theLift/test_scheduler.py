@@ -50,11 +50,37 @@ class TestScheduler(TestCase):
 
         self.assertEqual(self.scheduler.next(actualFloor, DIRECTION_UP), 2)
 
-    # def test_scheduler_shouldPointNextTargetFloorDown_whenMultipleCallsWereMadeInSameDirection(self):
-    #     actualFloor = 5
-    #
-    #     self.scheduler.add_call(floor=1, direction= DIRECTION_DOWN)
-    #     self.scheduler.add_call(floor=4, direction= DIRECTION_DOWN)
-    #
-    #     self.assertEqual(self.scheduler.next(actualFloor, DIRECTION_DOWN), 4)
+    def test_nextGoingDown_withManyBelowCallsGoingDown_shouldReturnClosestFloor(self):
+        actualFloor = 5
+        self.scheduler.add_call(floor=2, direction=DIRECTION_DOWN)
+        self.scheduler.add_call(floor=3, direction=DIRECTION_DOWN)
 
+        self.assertEqual(self.scheduler.next(actualFloor, DIRECTION_DOWN), 3)
+
+    def test_nextGoingDown_withBelowCallsMultipleDirections_shouldReturnClosestOfSameDirection(self):
+        actualFloor = 5
+        self.scheduler.add_call(floor=1, direction=DIRECTION_DOWN)
+        self.scheduler.add_call(floor=2, direction=DIRECTION_UP)
+
+        self.assertEqual(self.scheduler.next(actualFloor, DIRECTION_DOWN), 1)
+
+    def test_nextGoingDown_withBelowCallsGoingUp_shouldReturnFurthestFloor(self):
+        actualFloor = 5
+        self.scheduler.add_call(floor=4, direction=DIRECTION_UP)
+        self.scheduler.add_call(floor=3, direction=DIRECTION_UP)
+
+        self.assertEqual(self.scheduler.next(actualFloor, DIRECTION_DOWN), 3)
+
+    def test_nextGoingUp_withManyAboveRequests_shouldReturnClosestFloor(self):
+        actualFloor = 0
+        self.scheduler.add_request(floor=2)
+        self.scheduler.add_request(floor=1)
+
+        self.assertEqual(self.scheduler.next(actualFloor, DIRECTION_UP), 1)
+
+    def test_nextGoingDown_withAboveRequests_shouldReturnClosestFloor(self):
+        actualFloor = 5
+        self.scheduler.add_request(floor=2)
+        self.scheduler.add_request(floor=1)
+
+        self.assertEqual(self.scheduler.next(actualFloor, DIRECTION_DOWN), 2)
