@@ -1,8 +1,15 @@
-from src.chap5_mocks.theLift.command import Request, Call, DIRECTION_ANY, DIRECTION_DOWN, DIRECTION_UP
-from src.chap5_mocks.theLift.lift import MAX_LIFT_FLOORS
+from src.chap5_mocks.theLift.command import (
+    Request,
+    Call,
+    DIRECTION_ANY,
+    DIRECTION_DOWN,
+    DIRECTION_UP,
+)
+
+MAX_LIFT_FLOORS = 1000
+
 
 class Scheduler:
-
     def __init__(self):
         self._commands = []
 
@@ -18,7 +25,9 @@ class Scheduler:
 
             distances = []
             for command in self._commands:
-                distances.append(self._calculateDistance(command, actualFloor, actualDirection))
+                distances.append(
+                    self._calculateDistance(command, actualFloor, actualDirection)
+                )
 
             indexOfMinDistance = distances.index(min(distances))
             closestFloor = self._commands[indexOfMinDistance].floor()
